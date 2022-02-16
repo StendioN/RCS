@@ -1,3 +1,3 @@
 # RCS
-Reliability of computer systems
-Виконав: Лялін Ігор Варіант: 16
+# Reliability of computer systems
+# Виконав: Лялін Ігор Варіант: 16

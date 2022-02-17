@@ -32,7 +32,7 @@ for i in range(len(t)):
 fi = [i / (N * h) for i in count[1:]]
 pi = [0 for i in range(k)]
 for i in range(len(fi)):
-    pi[i] = h * sum(fi[(i + 1):])
+    pi[i] = h * sum(fi[i:])
 
 # γ-відсотковий наробіток на відмову Tγ при γ = 0.62
 d_038 = (pi[1] - gamma) / (pi[1] - pi[0])

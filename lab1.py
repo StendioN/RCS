@@ -29,22 +29,36 @@ for i in range(len(t)):
     for j in range(len(intervals)):
         if intervals[j - 1] < t[i] <= intervals[j]:
             count[j] += 1
-fi = [i / (N * h) for i in count[1:]]
-pi = [0 for i in range(k)]
+fi = [i / (N * h) for i in count]
+pi = [0 for i in range(k + 1)]
+adder = 0
 for i in range(len(fi)):
-    pi[i] = h * sum(fi[i:])
+    adder += fi[i]
+    pi[i] = round(1 - h * adder, 2)
 
-# γ-відсотковий наробіток на відмову Tγ при γ = 0.62
-d_038 = (pi[1] - gamma) / (pi[1] - pi[0])
-T_062 = h - h * d_038
-print(f"γ-відсотковий наробіток на відмову Tγ при γ = 0.62: {T_062}")
+# γ-відсотковий наробіток на відмову Tγ
+T_1 = 0
+for i in range(len(pi)):
+    if pi[i - 1] >= gamma >= pi[i]:
+        d_1 = (pi[i] - gamma) / (pi[i] - pi[i - 1])
+        T_1 = h - h * d_1
+        break
+print(f"γ-відсотковий наробіток на відмову Tγ: {T_1}")
 
-# Ймовірність безвідмовної роботи на час 275 годин
-P_275 = 1 - (fi[0] * h + fi[1] * h + fi[2] * h + fi[3] * (probability_time - intervals[3]))
-print(f"Ймовірність безвідмовної роботи на час 275 годин: {P_275}")
+# Ймовірність безвідмовної роботи
+P_1 = 0
+for i in range(len(intervals)):
+    if intervals[i - 1] <= probability_time <= intervals[i]:
+        P_1 = 1 - (h * sum(fi[0:i:1]) + fi[i] * (probability_time - intervals[i - 1]))
+        break
+print(f"Ймовірність безвідмовної роботи на час {probability_time}: {P_1}")
 
-# Інтенсивність відмов на час 648 годин
-P_648 = 1 - (fi[0] * h + fi[1] * h + fi[2] * h + fi[3] * h + fi[4] * h + fi[5] * h + fi[6] * h + fi[7] * (
-        lambda_time - intervals[7]))
-lambda_648 = fi[7] / P_648
-print(f"Інтенсивність відмов на час 648 годин: {lambda_648}")
+# Інтенсивність відмов
+P_2 = 0
+lambda_1 = 0
+for i in range(len(intervals)):
+    if intervals[i - 1] <= lambda_time <= intervals[i]:
+        P_2 = 1 - (h * sum(fi[0:i:1]) + fi[i] * (lambda_time - intervals[i - 1]))
+        lambda_1 = fi[i] / P_2
+        break
+print(f"Інтенсивність відмов на час {lambda_time}: {lambda_1}")

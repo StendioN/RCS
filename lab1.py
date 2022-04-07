@@ -38,10 +38,13 @@ for i in range(len(fi)):
 
 # γ-відсотковий наробіток на відмову Tγ
 T_1 = 0
+d_1_sum = 0
 for i in range(len(pi)):
+    d_1 = (pi[i] - gamma) / (pi[i] - pi[i - 1])
+    d_1_sum += d_1
     if pi[i - 1] >= gamma >= pi[i]:
-        d_1 = (pi[i] - gamma) / (pi[i] - pi[i - 1])
-        T_1 = h - h * d_1
+        d_1_sum -= d_1
+        T_1 = h - h * d_1 + d_1_sum
         break
 print(f"γ-відсотковий наробіток на відмову Tγ: {T_1}")
 
